@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#5a0f27">
+  <meta name="description" content="නිමාෂා සහ නුවන්ගේ විවාහ මංගල්‍යයට ඔබට ආදරයෙන් ඇරයුම්. 2026 දෙසැම්බර් 27 වැනි ඉරිදා.">
+  <title>නිමාෂා සහ නුවන් | අපේ විවාහ ආරාධනය</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Sinhala:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --crimson: #8B1E3F;
+      --wine: #5a0f27;
+      --dark-wine: #350b1c;
+      --gold: #C9A227;
+      --light-gold: #E8D48B;
+      --ivory: #fffaf0;
+      --cream: #f8f0e2;
+      --paper: #fffdf8;
+      --brown: #45322b;
+      --muted: #79685f;
+      --ease: cubic-bezier(.22, 1, .36, 1);
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 108px; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      color: var(--brown);
+      background: var(--ivory);
+      font-family: 'Noto Serif Sinhala', serif;
+      line-height: 1.9;
+      overflow-x: hidden;
+    }
+    body:not(.site-open) { overflow: hidden; }
+    button, input, textarea, select { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    a { color: inherit; }
+    button { cursor: pointer; }
+    img, svg { display: block; }
+    ::selection { background: #edcfac; color: var(--wine); }
+    :focus-visible { outline: 3px solid var(--gold); outline-offset: 4px; }
+    .svg-library { position: absolute; width: 0; height: 0; overflow: hidden; pointer-events: none; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+    /* ආරාධනය විවෘත වන තිරය */
+    .splash {
+      position: fixed;
+      z-index: 200;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      padding: 25px;
+      overflow: auto;
+      color: #fff6ed;
+      background:
+        radial-gradient(ellipse at 52% 40%, rgba(176, 41, 82, .40), transparent 43%),
+        radial-gradient(circle at 10% 5%, rgba(224, 194, 113, .12), transparent 31%),
+        radial-gradient(circle at 90% 95%, rgba(224, 194, 113, .09), transparent 35%),
+        linear-gradient(142deg, #3c0a1f, #6b1635 53%, #350817);
+      transition: opacity .85s ease, visibility .85s ease;
+    }
+    .splash[hidden] { display: none; }
+    .splash::before, .splash::after {
+      content: "";
+      position: absolute;
+      pointer-events: none;
+      border: 1px solid rgba(232, 212, 139, .42);
+      inset: 16px;
+    }
+    .splash::after { inset: 25px; border-color: rgba(232, 212, 139, .16); }
+    .site-open .splash { opacity: 0; visibility: hidden; pointer-events: none; }
+    .splash-content { position: relative; text-align: center; width: min(100%, 970px); padding: 38px 8px; z-index: 1; }
+    .splash-rose {
+      width: clamp(188px, 26vw, 250px);
+      height: clamp(188px, 26vw, 250px);
+      margin: 0 auto 12px;
+      filter: drop-shadow(0 20px 28px rgba(12, 0, 7, .58));
+      transform-origin: center;
+      animation: rose-bloom 2.5s var(--ease) both, rose-breathe 6s ease-in-out 2.5s infinite;
+    }
+
+    /* 3D නෙළුම් මල (CSS 3D) */
+    .splash-rose.lotus3d { font-size: clamp(188px, 26vw, 250px); width: 1em; height: 1em; position: relative; perspective: 900px; margin: 0 auto 12px; animation: none; filter: drop-shadow(0 20px 28px rgba(12,0,7,.58)); }
+    .lotus3d-tilt { position: absolute; inset: 0; transform-style: preserve-3d; transform: rotateX(58deg) translateY(.06em); }
+    .lotus3d-rotor { position: absolute; inset: 0; transform-style: preserve-3d; animation: lotus-spin 18s linear infinite; }
+    @keyframes lotus-spin { to { transform: rotateY(360deg); } }
+    .lp { position: absolute; left: calc(50% - .13em); bottom: 50%; width: .26em; height: var(--h); transform-origin: 50% 100%;
+      transform: rotateY(var(--yaw)) rotateX(var(--tilt)); border-radius: 50% 50% 6% 6% / 100% 100% 6% 6%;
+      background: linear-gradient(to top, var(--c0), var(--c1) 55%, var(--c2));
+      box-shadow: inset 0 0 .05em rgba(255,255,255,.45), inset 0 -.04em .06em rgba(90,10,40,.35); }
+    .lp::after { content: ""; position: absolute; left: 50%; top: 12%; bottom: 8%; width: 1px; background: rgba(255,255,255,.4); }
+    .lotus3d-core { position: absolute; left: calc(50% - .07em); bottom: calc(50% - .02em); width: .14em; height: .14em; border-radius: 50%;
+      background: radial-gradient(circle at 40% 35%, #fff2b0, #e1b73c 55%, #a97a14); transform: rotateX(-90deg); box-shadow: 0 0 .1em rgba(255,220,120,.7); }
+    .splash-bouquet { position: absolute; width: clamp(170px, 24vw, 320px); height: auto; z-index: 0; pointer-events: none; opacity: .95; filter: drop-shadow(0 8px 14px rgba(8,0,4,.4)); }
+    .splash-bouquet--tl { top: 0; left: -22px; }
+    .splash-bouquet--tr { top: 0; right: -22px; transform: scaleX(-1); }
+    .splash-bouquet--bl { bottom: 0; left: -22px; transform: scaleY(-1); }
+    .splash-bouquet--br { bottom: 0; right: -22px; transform: scale(-1); }
+    @media (max-width: 650px) { .splash-bouquet { width: 150px; } .splash-bouquet--tl, .splash-bouquet--bl { left: -48px; } .splash-bouquet--tr, .splash-bouquet--br { right: -48px; } }
+    @keyframes rose-bloom {
+      0% { opacity: .04; transform: perspective(650px) rotateY(58deg) rotate(-29deg) scale(.27); filter: blur(5px) drop-shadow(0 8px 14px rgba(10,0,5,.3)); }
+      62% { opacity: 1; transform: perspective(650px) rotateY(-8deg) rotate(5deg) scale(1.12); filter: blur(0) drop-shadow(0 20px 28px rgba(12,0,7,.58)); }
+      100% { opacity: 1; transform: perspective(650px) rotateY(0) rotate(0) scale(1); }
+    }
+    @keyframes rose-breathe { 50% { transform: perspective(650px) rotateY(8deg) scale(1.045) rotate(2deg); } }
+    .splash-kicker, .eyebrow { color: var(--light-gold); font-size: .86rem; font-weight: 600; }
+    .splash-names {
+      font-size: clamp(2.4rem, 6vw, 5.2rem);
+      line-height: 1.55;
+      margin: .35rem 0;
+      font-weight: 700;
+    }
+    .splash-names span { display: inline-block; }
+    .ampersand { font-size: .7em; font-weight: 400; color: var(--light-gold); padding: 0 .12em; }
+    .gold-text {
+      color: var(--light-gold);
+      background: linear-gradient(110deg, #b98e22 0%, #f5e8b2 24%, #cda53c 46%, #fff5c9 53%, #c69b31 76%, #e4cf83 100%);
+      background-size: 220% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gold-shimmer 7s linear infinite;
+    }
+    @keyframes gold-shimmer { to { background-position: -220% 0; } }
+    .splash-tagline { margin: 2px 0 27px; color: #f1d8d9; font-size: clamp(.96rem, 2vw, 1.15rem); }
+    .splash-date { color: #ecd5b1; font-size: .9rem; margin: 8px 0 27px; }
+    .primary-button {
+      display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+      padding: 13px 30px 12px;
+      background: linear-gradient(105deg, #e7cf83, #bd9229 58%, #f3df9e);
+      color: #391123;
+      font-size: .94rem;
+      font-weight: 700;
+      border: 1px solid #f5e8bb;
+      border-radius: 999px;
+      box-shadow: 0 6px 30px rgba(1, 0, 0, .26), inset 0 1px 0 rgba(255,255,255,.5);
+      text-decoration: none;
+      transition: transform .35s var(--ease), box-shadow .35s ease;
+    }
+    .primary-button:hover { transform: translateY(-4px); box-shadow: 0 11px 35px rgba(1,0,0,.3); }
+    .primary-button svg { width: 19px; height: 19px; }
+    .splash-footnote { color: rgba(255, 242, 226, .62); font-size: .73rem; margin-top: 22px; }
+
+    /* ඉහළ සංචාලනය */
+    .site-nav {
+      position: fixed;
+      top: 17px;
+      left: 50%;
+      z-index: 90;
+      width: min(94%, 660px);
+      padding: 5px 8px;
+      transform: translate(-50%, -160%);
+      opacity: 0;
+      border: 1px solid rgba(201,162,39,.44);
+      border-radius: 999px;
+      background: rgba(255, 249, 239, .94);
+      box-shadow: 0 7px 32px rgba(53, 11, 28, .12);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      transition: transform .8s var(--ease) .18s, opacity .8s ease .18s;
+      pointer-events: none;
+    }
+    .site-open .site-nav { transform: translate(-50%, 0); opacity: 1; pointer-events: auto; }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 3px; }
+    .nav-brand { flex-shrink: 0; padding: 5px 11px; color: var(--wine); font-size: .96rem; font-weight: 800; text-decoration: none; white-space: nowrap; }
+    .nav-brand .brand-heart { color: var(--crimson); padding: 0 3px; }
+    .nav-links { display: flex; justify-content: flex-end; align-items: center; gap: 0; }
+    .nav-links a { padding: 8px 11px; border-radius: 999px; font-size: .73rem; font-weight: 600; text-decoration: none; color: var(--brown); transition: background .25s, color .25s; white-space: nowrap; }
+    .nav-links a:hover, .nav-links a:focus-visible { color: var(--wine); background: #f4e4d7; }
+
+    /* මංගල මුල් පිටුව */
+    .hero {
+      position: relative;
+      display: grid;
+      align-items: center;
+      justify-items: center;
+      min-height: 100svh;
+      padding: 132px 55px 110px;
+      isolation: isolate;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse at 51% 30%, #fffefb 7%, rgba(255, 253, 248, .2) 65%),
+        radial-gradient(circle at 10% 95%, rgba(201, 162, 39, .1), transparent 33%),
+        radial-gradient(circle at 90% 4%, rgba(139, 30, 63, .07), transparent 34%),
+        #f8f1e6;
+    }
+    .hero::before, .hero::after {
+      content: ""; position: absolute; inset: 30px; border: 2px solid rgba(192, 144, 43, .78); pointer-events: none; z-index: 0;
+    }
+    .hero::after { inset: 39px; border: 1px solid rgba(192, 144, 43, .48); }
+    .hero-center { position: relative; z-index: 2; text-align: center; width: min(100%, 890px); }
+    .hero-topline { margin: 0 0 18px; font-size: .89rem; font-weight: 600; color: #8f6d3d; }
+    .hero-intro { margin: 0; font-size: clamp(1.02rem, 1.7vw, 1.18rem); color: var(--wine); }
+    .hero-names { font-size: clamp(3.15rem, 7vw, 5.85rem); line-height: 1.4; font-weight: 800; margin: .17em 0 .13em; }
+    #heroTitle:focus { outline: none; }
+    .hero-names span { display: inline-block; }
+    .hero-ornament { margin: 5px auto 18px; }
+    .hero-date { margin: 10px auto 6px; font-size: clamp(1.08rem, 2.2vw, 1.48rem); font-weight: 700; color: var(--wine); }
+    .hero-venue { font-size: clamp(.95rem, 1.8vw, 1.12rem); color: #7c4f45; margin: 0 auto; }
+    .hero-message { max-width: 540px; margin: 28px auto 31px; font-size: clamp(.94rem, 1.8vw, 1.1rem); }
+    .hero-link { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; color: var(--wine); font-weight: 700; font-size: .91rem; border-bottom: 1px solid var(--gold); padding-bottom: 5px; transition: gap .2s; }
+    .hero-link:hover { gap: 17px; }
+    .bouquet { position: absolute; width: clamp(205px, 27vw, 365px); height: auto; z-index: 1; filter: drop-shadow(0 8px 11px rgba(62, 11, 32, .13)); pointer-events: none; }
+    .bouquet--tl { top: -25px; left: -36px; }
+    .bouquet--tr { top: -25px; right: -36px; transform: scaleX(-1); }
+    .bouquet--bl { bottom: -25px; left: -36px; transform: scaleY(-1); }
+    .bouquet--br { bottom: -25px; right: -36px; transform: scale(-1); }
+    .hero-scroll-cue { position: absolute; z-index: 2; bottom: 57px; font-size: .72rem; color: #947b62; }
+
+    /* පොදු කොටස් */
+    main { position: relative; }
+    .section { position: relative; padding: clamp(85px, 9vw, 130px) 22px; scroll-margin-top: 92px; }
+    .container { width: min(100%, 1060px); margin: 0 auto; }
+    .section-head { text-align: center; margin-bottom: 38px; }
+    .section-kicker { margin: 0 0 7px; font-size: .83rem; color: #a27a32; font-weight: 700; }
+    .section-title { margin: 0; font-size: clamp(1.7rem, 3.5vw, 2.7rem); color: var(--wine); font-weight: 700; line-height: 1.7; }
+    .ornament { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 12px auto 0; }
+    .ornament::before, .ornament::after { content: ""; width: 66px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold)); }
+    .ornament::after { transform: rotate(180deg); }
+    .ornament svg { width: 27px; height: 27px; filter: drop-shadow(0 2px 3px rgba(75,9,26,.18)); }
+    .section-subtitle { max-width: 680px; margin: 18px auto 0; color: var(--muted); font-size: .96rem; }
+    .reveal { opacity: 0; transform: translateY(33px); transition: opacity .8s var(--ease), transform .8s var(--ease); }
+    .reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+    /* ආදරණීය ඇරයුම සහ ආශීර්වාද */
+    .blessing-section { background:
+      radial-gradient(circle at 50% 25%, rgba(241,220,163,.22), transparent 46%),
+      #fffbf5; }
+    .blessing-panel { position: relative; max-width: 860px; margin: 0 auto; padding: clamp(32px,5.5vw,60px) clamp(22px,6vw,65px);
+      background: linear-gradient(135deg, #fffefa, #f9efe3); text-align: center;
+      border: 1px solid rgba(201,162,39,.49); box-shadow: 0 20px 48px rgba(69,39,22,.065); }
+    .blessing-panel::before { content:""; position:absolute; inset:9px; pointer-events:none; border:1px solid rgba(201,162,39,.25); }
+    .blessing-emblem { margin: 0 auto 19px; width: 76px; height:76px; display:grid; place-items:center; border-radius:50%; border:1px solid #dcc88c; color:var(--crimson); background:#fffbf1; }
+    .blessing-emblem svg { width:38px; height:38px; fill:none; stroke:currentColor; stroke-width:1.6; stroke-linejoin:round; stroke-linecap:round; }
+    .blessing-message { max-width:710px; margin:0 auto; font-size:clamp(1.01rem,2.25vw,1.24rem); color:var(--wine); font-weight:600; line-height:2.15; }
+    .blessing-signature { margin:20px auto 0; color:#9a7329; font-size:.93rem; font-weight:700; }
+    .blessing-grid { margin-top:35px; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; }
+    .blessing-feature { text-align:center; padding:21px 10px; border-top:1px solid #e5d4ad; }
+    .blessing-feature svg { margin:0 auto 8px; width:31px; height:31px; fill:none; stroke:#a78231; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
+    .blessing-feature h3 { font-size:.93rem; line-height:1.8; font-weight:700; color:var(--wine); margin:0 0 3px; }
+    .blessing-feature p { font-size:.79rem; line-height:1.85; color:var(--muted); margin:0; }
+
+    /* වැඩසටහන් */
+    .events-section { background: linear-gradient(180deg, #f8f0e6 0%, #fcf7ee 100%); }
+    .event-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .event-card {
+      min-width: 0; position: relative; text-align: center;
+      padding: 38px 25px 35px;
+      background: rgba(255,253,248,.96);
+      border: 1px solid rgba(201,162,39,.32);
+      box-shadow: 0 7px 24px rgba(74, 41, 31, .045);
+      transition: transform .4s var(--ease), box-shadow .4s ease;
+    }
+    .event-card::before { content: ""; position: absolute; inset: 8px; border: 1px solid rgba(201,162,39,.17); pointer-events: none; }
+    .event-card:hover { transform: translateY(-9px); box-shadow: 0 20px 42px rgba(74,41,31,.12); }
+    .event-icon { display: grid; place-items: center; width: 76px; height: 76px; margin: 0 auto 18px; border: 1px solid #e9d9b2; border-radius: 50%; background: #fff9ee; }
+    .event-icon svg { width: 42px; height: 42px; fill: none; stroke: var(--crimson); stroke-width: 1.55; stroke-linecap: round; stroke-linejoin: round; }
+    .event-card h3 { font-size: 1.2rem; color: var(--wine); line-height: 1.75; margin: 0 0 11px; }
+    .event-time { font-size: 1.27rem; font-weight: 700; color: #a07c29; margin: 0 0 8px; }
+    .event-place { font-size: .89rem; margin: 0; line-height: 1.95; color: #70584c; }
+    .event-number { color: #bca879; font-size: .73rem; margin: 0 0 12px; }
+
+    /* දින ගණනය */
+    .countdown-section {
+      text-align: center; color: #fff8ec;
+      background:
+        radial-gradient(ellipse at 50% 0%, rgba(170,45,81,.5), transparent 65%),
+        linear-gradient(150deg, #420c22, #721b3b 52%, #420c22);
+      overflow: hidden;
+    }
+    .countdown-section::before, .countdown-section::after { content: ""; position: absolute; width: 340px; height: 340px; border: 1px solid rgba(232,212,139,.15); border-radius: 50%; top: -180px; left: -100px; }
+    .countdown-section::after { top: auto; left: auto; bottom: -200px; right: -90px; width: 420px; height: 420px; }
+    .countdown-section .section-title { color: #fff0d8; }
+    .countdown-section .section-kicker { color: var(--light-gold); }
+    .countdown-section .section-subtitle { color: #efcfce; }
+    .countdown-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(10px, 2vw, 20px); max-width: 745px; margin: 38px auto 0; }
+    .time-box { padding: 19px 12px 16px; border: 1px solid rgba(232,212,139,.5); background: rgba(255,255,255,.06); backdrop-filter: blur(8px); }
+    .time-value { display: block; font-size: clamp(1.75rem, 5.5vw, 3.6rem); line-height: 1.3; color: #ffe8a1; font-weight: 700; font-variant-numeric: tabular-nums; }
+    .time-label { display: block; margin-top: 8px; color: #fbe4db; font-size: clamp(.72rem, 1.5vw, .9rem); }
+    .countdown-done { min-height: 1.5em; font-size: .92rem; margin: 22px 0 0; color: #f3d6d9; }
+
+    /* ස්ථානය */
+    .venue-section { background: #fffaf2; }
+    .venue-card { display: grid; grid-template-columns: .86fr 1.14fr; border: 1px solid rgba(201,162,39,.4); background: #fffefb; box-shadow: 0 18px 50px rgba(54,27,20,.08); overflow: hidden; }
+    .venue-art {
+      display: grid; place-items: center; min-height: 340px;
+      background:
+        radial-gradient(ellipse at 55% 35%, rgba(255,229,190,.16), transparent 52%),
+        repeating-linear-gradient(45deg, transparent, transparent 39px, rgba(232,212,139,.055) 40px, transparent 41px),
+        linear-gradient(140deg, #6f1838, #400c21);
+    }
+    .venue-medallion { width: 230px; height: 230px; display: grid; place-items: center; border: 1px solid rgba(232,212,139,.65); border-radius: 50%; position: relative; }
+    .venue-medallion::after { content: ""; border: 1px solid rgba(232,212,139,.26); position: absolute; inset: 10px; border-radius: 50%; }
+    .venue-medallion svg { width: 135px; height: 135px; }
+    .venue-details { padding: clamp(34px, 6vw, 66px) clamp(30px, 5vw, 68px); align-self: center; }
+    .venue-details .eyebrow { color: #a78642; }
+    .venue-details h3 { color: var(--wine); font-size: clamp(1.5rem, 2.8vw, 2.18rem); line-height: 1.6; margin: 4px 0 17px; }
+    .venue-address { margin: 0 0 27px; color: #70594f; font-size: .95rem; }
+    .map-button {
+      display: inline-flex; gap: 10px; align-items: center; justify-content: center;
+      padding: 10px 24px; color: #fff7ec; background: var(--wine); text-decoration: none; border: 1px solid var(--wine);
+      font-size: .9rem; font-weight: 700; transition: transform .3s var(--ease), background .3s;
+    }
+    .map-button:hover { transform: translateY(-4px); background: var(--crimson); }
+    .map-button svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+    /* සහභාගීත්වය තහවුරු කිරීම */
+    .rsvp-section { background: linear-gradient(180deg, #f8f0e5, #fffaf2); }
+    .rsvp-panel { width: min(100%, 805px); margin: auto; padding: clamp(27px, 5vw, 60px); border: 1px solid rgba(201,162,39,.42); background: #fffdf8; box-shadow: 0 20px 60px rgba(54, 27, 20, .075); }
+    .form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 21px 19px; }
+    .field { min-width: 0; }
+    .field.full { grid-column: 1 / -1; }
+    .field label, .attendance-fieldset legend { display: block; margin-bottom: 7px; color: var(--wine); font-weight: 700; font-size: .87rem; }
+    .field input, .field select, .field textarea {
+      width: 100%; min-width: 0; padding: 12px 15px;
+      background: #fffefa; color: var(--brown);
+      border: 1px solid #d8c8ad; border-radius: 0;
+      box-shadow: inset 0 1px 2px rgba(65,30,10,.025);
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .field input:focus, .field select:focus, .field textarea:focus { outline: 3px solid rgba(201,162,39,.35); outline-offset: 2px; border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold); }
+    .field textarea { resize: vertical; min-height: 118px; }
+    .field input::placeholder, .field textarea::placeholder { color: #aa9a8e; }
+    .attendance-fieldset { padding: 0; margin: 0; border: 0; }
+    .attendance-fieldset legend { margin-bottom: 11px; padding: 0; }
+    .radio-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .radio-option { display: flex; gap: 10px; align-items: center; padding: 13px 14px; border: 1px solid #dbcbb1; background: #fffdf7; cursor: pointer; font-size: .86rem; line-height: 1.7; transition: border-color .2s, background .2s; }
+    .radio-option:has(input:checked) { border-color: var(--crimson); background: #fff1f1; }
+    .radio-option:focus-within { outline: 3px solid rgba(201,162,39,.38); outline-offset: 2px; }
+    .radio-option input { width: 17px; height: 17px; flex-shrink: 0; accent-color: var(--crimson); cursor: pointer; }
+    .field select:disabled { opacity: .55; cursor: not-allowed; }
+    .form-foot { text-align: center; margin-top: 27px; }
+    .submit-button { width: min(100%, 310px); min-height: 54px; padding: 10px 26px; border: 0; background: linear-gradient(115deg, #741832, #971f45); color: #fff5e8; font-size: .92rem; font-weight: 700; box-shadow: 0 10px 22px rgba(89,16,43,.17); transition: transform .3s var(--ease), box-shadow .3s; }
+    .submit-button:hover { transform: translateY(-4px); box-shadow: 0 15px 28px rgba(89,16,43,.23); }
+    .deadline { margin: 20px auto 0; color: var(--crimson); font-size: .87rem; font-weight: 700; }
+    .demo-note { margin: 6px auto 0; color: var(--muted); font-size: .73rem; }
+
+    /* අවසන් කොටස */
+    .site-footer { padding: 65px 20px 50px; text-align: center; color: #f8e8de; background: linear-gradient(135deg, #37091c, #5a102a 55%, #3d0a20); }
+    .footer-rose { width: 65px; height: 65px; margin: 0 auto 10px; filter: drop-shadow(0 4px 7px rgba(0,0,0,.32)); }
+    .footer-names { margin: 0; color: #f4d88d; font-size: clamp(1.5rem, 3vw, 2.25rem); font-weight: 700; }
+    .footer-date { margin: 7px 0 12px; font-size: .9rem; color: #ebd1c6; }
+    .footer-note { color: #e6c29d; font-size: .88rem; margin: 0; }
+
+    /* සංගීත පාලනය */
+    .music-toggle {
+      position: fixed; right: 22px; bottom: 22px; z-index: 120;
+      width: 56px; height: 56px; display: grid; place-items: center;
+      border: 1px solid #e9d59e; border-radius: 50%;
+      background: linear-gradient(145deg, #792040, #4e0c22);
+      box-shadow: 0 9px 30px rgba(56, 11, 30, .3);
+      color: #f9e4a4;
+      opacity: 0; visibility: hidden; transform: translateY(16px);
+      transition: opacity .5s, visibility .5s, transform .5s var(--ease);
+    }
+    .site-open .music-toggle { opacity: 1; visibility: visible; transform: translateY(0); }
+    .music-toggle:hover { transform: translateY(-4px); }
+    .music-note { display: inline-block; font-family: Georgia, serif; font-size: 29px; line-height: 1; }
+    .music-toggle.is-playing .music-note { animation: music-spin 4s linear infinite; }
+    @keyframes music-spin { to { transform: rotate(360deg); } }
+    .music-toggle:not(.is-playing)::after { content: ""; width: 31px; height: 2px; background: #fff4eb; position: absolute; transform: rotate(-47deg); border-radius: 2px; box-shadow: 0 1px 2px #30081a; }
+    .falling-layer { position: fixed; inset: 0; pointer-events: none; z-index: 75; overflow: hidden; perspective: 780px; }
+    .falling-item { position: absolute; top: -110px; left: var(--start-x); width: var(--size); height: var(--size); opacity: .77; animation: flower-fall var(--duration) linear var(--delay) infinite; will-change: transform; }
+    .falling-item svg { width: 100%; height: 100%; filter: drop-shadow(0 3px 3px rgba(62,10,30,.15)); }
+    .falling-tumbler { display: block; width: 100%; height: 100%; transform-style: preserve-3d; animation: flower-tumble var(--tumble) ease-in-out var(--delay) infinite alternate; }
+    @keyframes flower-fall { 0% { transform: translate3d(0, -8vh, 0) rotate(0deg); } 48% { transform: translate3d(var(--drift-mid), 50vh, 0) rotate(52deg); } 100% { transform: translate3d(var(--drift), 115vh, 0) rotate(145deg); } }
+    @keyframes flower-tumble { from { transform: rotateX(0deg) rotateY(-56deg) rotateZ(-25deg); } to { transform: rotateX(310deg) rotateY(330deg) rotateZ(65deg); } }
+
+    @media (max-width: 800px) {
+      .event-grid { gap: 13px; }
+      .event-card { padding: 28px 15px; }
+      .event-card h3 { font-size: 1.03rem; }
+      .event-time { font-size: 1.08rem; }
+      .venue-card { grid-template-columns: 1fr 1.2fr; }
+      .venue-art { min-height: 310px; }
+      .venue-medallion { width: 175px; height: 175px; }
+    }
+    @media (max-width: 650px) {
+      html { scroll-padding-top: 85px; }
+      .site-nav { top: 9px; width: calc(100% - 18px); padding: 3px 5px; }
+      .nav-brand { font-size: .75rem; padding: 5px 6px; }
+      .nav-links a { font-size: .61rem; padding: 7px 6px; }
+      .splash-names span { display: block; }
+      .splash-names .ampersand { font-size: .46em; margin: -.43em 0; }
+      .hero { padding: 150px 31px 130px; min-height: 94svh; }
+      .hero::before { inset: 14px; }
+      .hero::after { inset: 21px; }
+      .hero-names { font-size: clamp(2.75rem, 11vw, 4rem); }
+      .hero-names span { display: block; }
+      .hero-names .ampersand { display: block; margin: -.37em 0; font-size: .48em; }
+      .bouquet { width: 205px; opacity: .88; }
+      .bouquet--tl { top: -25px; left: -63px; }
+      .bouquet--tr { top: -25px; right: -63px; }
+      .bouquet--bl { bottom: -34px; left: -70px; }
+      .bouquet--br { bottom: -34px; right: -70px; }
+      .hero-topline { font-size: .74rem; }
+      .hero-intro { font-size: .9rem; }
+      .hero-message { margin: 19px auto 23px; }
+      .hero-scroll-cue { bottom: 39px; font-size: .63rem; }
+      .section { padding: 78px 19px; }
+      .event-grid { grid-template-columns: 1fr; gap: 16px; max-width: 420px; margin: auto; }
+      .event-card { padding: 30px 20px; }
+      .venue-card { grid-template-columns: 1fr; }
+      .venue-art { min-height: 238px; }
+      .venue-medallion { width: 180px; height: 180px; }
+      .venue-medallion svg { width: 110px; height: 110px; }
+      .venue-details { text-align: center; padding: 31px 24px 39px; }
+      .form-grid { grid-template-columns: 1fr; }
+      .radio-grid { grid-template-columns: 1fr; gap: 9px; }
+      .countdown-grid { gap: 6px; }
+      .time-box { padding: 15px 3px 12px; }
+      .time-label { font-size: .68rem; }
+      .music-toggle { width: 51px; height: 51px; right: 15px; bottom: 15px; }
+    }
+    @media (max-width: 385px) {
+      .nav-brand { font-size: .66rem; }
+      .nav-links a { padding: 7px 4px; font-size: .57rem; }
+      .hero { padding-right: 27px; padding-left: 27px; }
+      .splash-names { font-size: 2.35rem; }
+      .splash-names span { display: block; }
+      .splash-names .ampersand { display: block; margin: -.35em 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
+      .reveal { opacity: 1; transform: none; }
+      .falling-layer { display: none; }
+      .site-open .site-nav { transform: translate(-50%, 0); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <!-- සියලු මල් රූප මෙම ගොනුවේම ඇති SVG ඇසුරින් නිර්මාණය කර ඇත. -->
+  <svg class="svg-library" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+    <defs>
+      <radialGradient id="rose-petal-outer" cx="40%" cy="27%" r="80%" fx="30%" fy="12%">
+        <stop offset="0" stop-color="#f3a9b5"/><stop offset=".18" stop-color="#d95c7e"/><stop offset=".5" stop-color="#a3224b"/><stop offset=".79" stop-color="#7d1438"/><stop offset="1" stop-color="#4d0a28"/>
+      </radialGradient>
+      <radialGradient id="rose-petal-inner" cx="48%" cy="25%" r="76%">
+        <stop offset="0" stop-color="#ffd1ca"/><stop offset=".26" stop-color="#e97996"/><stop offset=".57" stop-color="#b52a53"/><stop offset="1" stop-color="#6e1033"/>
+      </radialGradient>
+      <radialGradient id="rose-petal-mid" cx="35%" cy="16%" r="86%">
+        <stop offset="0" stop-color="#fbbbc2"/><stop offset=".24" stop-color="#df6488"/><stop offset=".56" stop-color="#a41e47"/><stop offset="1" stop-color="#590c2a"/>
+      </radialGradient>
+      <radialGradient id="rose-heart-gradient" cx="42%" cy="25%" r="76%">
+        <stop offset="0" stop-color="#ef8b9c"/><stop offset=".42" stop-color="#aa224b"/><stop offset="1" stop-color="#4b0924"/>
+      </radialGradient>
+      <linearGradient id="leaf-gradient" x1="0" y1="0" x2=".9" y2="1">
+        <stop offset="0" stop-color="#79905a"/><stop offset=".35" stop-color="#536d47"/><stop offset=".73" stop-color="#31573c"/><stop offset="1" stop-color="#213f31"/>
+      </linearGradient>
+      <linearGradient id="rose-single-petal" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#ffc4c8"/><stop offset=".33" stop-color="#db6383"/><stop offset=".78" stop-color="#8b1e3f"/><stop offset="1" stop-color="#550d2a"/>
+      </linearGradient>
+      <symbol id="rose-art" viewBox="0 0 120 120"><linearGradient id="lotus-back" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#9c2459"/><stop offset=".55" stop-color="#d9628c"/><stop offset="1" stop-color="#f6b3c8"/></linearGradient>
+<linearGradient id="lotus-mid" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#c23b72"/><stop offset=".5" stop-color="#ec86a8"/><stop offset="1" stop-color="#ffd9e5"/></linearGradient>
+<linearGradient id="lotus-front" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#d9558a"/><stop offset=".45" stop-color="#f7a4c0"/><stop offset="1" stop-color="#fff4f8"/></linearGradient>
+<radialGradient id="lotus-core" cx="50%" cy="40%" r="65%"><stop offset="0" stop-color="#fff2b0"/><stop offset=".5" stop-color="#e1b73c"/><stop offset="1" stop-color="#a97a14"/></radialGradient><g transform="rotate(-68 60 88)"><path d="M60 88 C41.4 76.8 37.7 49.6 60 26.0 C82.3 49.6 78.6 76.8 60 88Z" fill="url(#lotus-back)" stroke="rgba(110,15,55,.28)" stroke-width=".6"/><path d="M60 84.3 Q60 57.0 60 37.2" fill="none" stroke="rgba(255,255,255,.38)" stroke-width=".9" stroke-linecap="round"/></g><g transform="rotate(-46 60 88)"><path d="M60 88 C41.4 76.8 37.7 49.6 60 26.0 C82.3 49.6 78.6 76.8 60 88Z" fill="url(#lotus-back)" stroke="rgba(110,15,55,.28)" stroke-width=".6"/><path d="M60 84.3 Q60 57.0 60 37.2" fill="none" stroke="rgba(255,255,255,.38)" stroke-width=".9" stroke-linecap="round"/></g><g transform="rotate(-23 60 88)"><path d="M60 88 C41.4 76.8 37.7 49.6 60 26.0 C82.3 49.6 78.6 76.8 60 88Z" fill="url(#lotus-back)" stroke="rgba(110,15,55,.28)" stroke-width=".6"/><path d="M60 84.3 Q60 57.0 60 37.2" fill="none" stroke="rgba(255,255,255,.38)" stroke-width=".9" stroke-linecap="round"/></g><g transform="rotate(0 60 88)"><path d="M60 88 C41.4 76.8 37.7 49.6 60 26.0 C82.3 49.6 78.6 76.8 60 88Z" fill="url(#lotus-back)" stroke="rgba(110,15,55,.28)" stroke-width=".6"/><path d="M60 84.3 Q60 57.0 60 37.2" fill="none" stroke="rgba(255,255,255,.38)" stroke-width=".9" stroke-linecap="round"/></g><g transform="rotate(23 60 88)"><path d="M60 88 C41.4 76.8 37.7 49.6 60 26.0 C82.3 49.6 78.6 76.8 60 88Z" fill="url(#lotus-back)" stroke="rgba(110,15,55,.28)" stroke-width=".6"/><path d="M60 84.3 Q60 57.0 60 37.2" fill="none" stroke="rgba(255,255,255,.38)" stroke-width=".9" stroke-linecap="round"/></g><g transform="rotate(46 60 88)"><path d="M60 88 C41.4 76.8 37.7 49.6 60 26.0 C82.3 49.6 78.6 76.8 60 88Z" fill="url(#lotus-back)" stroke="rgba(110,15,55,.28)" stroke-width=".6"/><path d="M60 84.3 Q60 57.0 60 37.2" fill="none" stroke="rgba(255,255,255,.38)" stroke-width=".9" stroke-linecap="round"/></g><g transform="rotate(68 60 88)"><path d="M60 88 C41.4 76.8 37.7 49.6 60 26.0 C82.3 49.6 78.6 76.8 60 88Z" fill="url(#lotus-back)" stroke="rgba(110,15,55,.28)" stroke-width=".6"/><path d="M60 84.3 Q60 57.0 60 37.2" fill="none" stroke="rgba(255,255,255,.38)" stroke-width=".9" stroke-linecap="round"/></g><g transform="rotate(-58 60 88)"><path d="M60 88 C43.2 77.9 39.8 53.3 60 32.0 C80.2 53.3 76.8 77.9 60 88Z" fill="url(#lotus-mid)" stroke="rgba(110,15,55,.28)" stroke-width=".6"/><path d="M60 84.6 Q60 60.0 60 42.1" fill="none" stroke="rgba(255,255,255,.38)" stroke-width=".9" stroke-linecap="round"/></g><g transform="rotate(-36 60 88)"><path d="M60 88 C43.2 77.9 39.8 53.3 60 32.0 C80.2 53.3 76.8 77.9 60 88Z" fill="url(#lotus-mid)" stroke="rgba(110,15,55,.28)" stroke-width=".6"/><path d="M60 84.6 Q60 60.0 60 42.1" fill="none" stroke="rgba(255,255,255,.38)" stroke-width=".9" stroke-linecap="round"/></g><g transform="rotate(-12 60 88)"><path d="M60 88 C43.2 77.9 39.8 53.3 60 32.0 C80.2 53.3 76.8 77.9 60 88Z" fill="url(#lotus-mid)" stroke="rgba(110,15,55,.28)" stroke-width=".6"/><path d="M60 84.6 Q60 60.0 60 42.1" fill="none" stroke="rgba(255,255,255,.38)" stroke-width=".9" stroke-linecap="round"/></g><g transform="rotate(12 60 88)"><path d="M60 88 C43.2 77.9 39.8 53.3 60 32.0 C80.2 53.3 76.8 77.9 60 88Z" fill="url(#lotus-mid)" stroke="rgba(110,15,55,.28)" stroke-width=".6"/><path d="M60 84.6 Q60 60.0 60 42.1" fill="none" stroke="rgba(255,255,255,.38)" stroke-width=".9" stroke-linecap="round"/></g><g transform="rotate(36 60 88)"><path d="M60 88 C43.2 77.9 39.8 53.3 60 32.0 C80.2 53.3 76.8 77.9 60 88Z" fill="url(#lotus-mid)" stroke="rgba(110,15,55,.28)" stroke-width=".6"/><path d="M60 84.6 Q60 60.0 60 42.1" fill="none" stroke="rgba(255,255,255,.38)" stroke-width=".9" stroke-linecap="round"/></g><g transform="rotate(58 60 88)"><path d="M60 88 C43.2 77.9 39.8 53.3 60 32.0 C80.2 53.3 76.8 77.9 60 88Z" fill="url(#lotus-mid)" stroke="rgba(110,15,55,.28)" stroke-width=".6"/><path d="M60 84.6 Q60 60.0 60 42.1" fill="none" stroke="rgba(255,255,255,.38)" stroke-width=".9" stroke-linecap="round"/></g><g transform="rotate(-44 60 88)"><path d="M60 88 C45.6 79.4 42.7 58.2 60 40.0 C77.3 58.2 74.4 79.4 60 88Z" fill="url(#lotus-front)" stroke="rgba(110,15,55,.28)" stroke-width=".6"/><path d="M60 85.1 Q60 64.0 60 48.6" fill="none" stroke="rgba(255,255,255,.38)" stroke-width=".9" stroke-linecap="round"/></g><g transform="rotate(-22 60 88)"><path d="M60 88 C45.6 79.4 42.7 58.2 60 40.0 C77.3 58.2 74.4 79.4 60 88Z" fill="url(#lotus-front)" stroke="rgba(110,15,55,.28)" stroke-width=".6"/><path d="M60 85.1 Q60 64.0 60 48.6" fill="none" stroke="rgba(255,255,255,.38)" stroke-width=".9" stroke-linecap="round"/></g><g transform="rotate(0 60 88)"><path d="M60 88 C45.6 79.4 42.7 58.2 60 40.0 C77.3 58.2 74.4 79.4 60 88Z" fill="url(#lotus-front)" stroke="rgba(110,15,55,.28)" stroke-width=".6"/><path d="M60 85.1 Q60 64.0 60 48.6" fill="none" stroke="rgba(255,255,255,.38)" stroke-width=".9" stroke-linecap="round"/></g><g transform="rotate(22 60 88)"><path d="M60 88 C45.6 79.4 42.7 58.2 60 40.0 C77.3 58.2 74.4 79.4 60 88Z" fill="url(#lotus-front)" stroke="rgba(110,15,55,.28)" stroke-width=".6"/><path d="M60 85.1 Q60 64.0 60 48.6" fill="none" stroke="rgba(255,255,255,.38)" stroke-width=".9" stroke-linecap="round"/></g><g transform="rotate(44 60 88)"><path d="M60 88 C45.6 79.4 42.7 58.2 60 40.0 C77.3 58.2 74.4 79.4 60 88Z" fill="url(#lotus-front)" stroke="rgba(110,15,55,.28)" stroke-width=".6"/><path d="M60 85.1 Q60 64.0 60 48.6" fill="none" stroke="rgba(255,255,255,.38)" stroke-width=".9" stroke-linecap="round"/></g><g transform="rotate(-24 60 88)"><path d="M60 88 C49.2 81.5 47.0 65.7 60 52.0 C73.0 65.7 70.8 81.5 60 88Z" fill="url(#lotus-front)" stroke="rgba(110,15,55,.28)" stroke-width=".6"/><path d="M60 85.8 Q60 70.0 60 58.5" fill="none" stroke="rgba(255,255,255,.38)" stroke-width=".9" stroke-linecap="round"/></g><g transform="rotate(0 60 88)"><path d="M60 88 C49.2 81.5 47.0 65.7 60 52.0 C73.0 65.7 70.8 81.5 60 88Z" fill="url(#lotus-front)" stroke="rgba(110,15,55,.28)" stroke-width=".6"/><path d="M60 85.8 Q60 70.0 60 58.5" fill="none" stroke="rgba(255,255,255,.38)" stroke-width=".9" stroke-linecap="round"/></g><g transform="rotate(24 60 88)"><path d="M60 88 C49.2 81.5 47.0 65.7 60 52.0 C73.0 65.7 70.8 81.5 60 88Z" fill="url(#lotus-front)" stroke="rgba(110,15,55,.28)" stroke-width=".6"/><path d="M60 85.8 Q60 70.0 60 58.5" fill="none" stroke="rgba(255,255,255,.38)" stroke-width=".9" stroke-linecap="round"/></g><ellipse cx="60" cy="82" rx="11" ry="6" fill="url(#lotus-core)" stroke="#8d6410" stroke-width=".5"/><g fill="#fff4bf" stroke="#b98a1a" stroke-width=".3"><circle cx="53" cy="80" r="1.5"/><circle cx="60" cy="78" r="1.6"/><circle cx="67" cy="80" r="1.5"/><circle cx="56.5" cy="83" r="1.3"/><circle cx="63.5" cy="83" r="1.3"/></g></symbol>
+      <symbol id="leaf-art" viewBox="0 0 90 65">
+        <path d="M5 52 C15 20 42-1 85 7 C81 43 48 66 5 52Z" fill="url(#leaf-gradient)" stroke="#294e36" stroke-width="1.2"/>
+        <path d="M7 51 C28 42 57 28 83 9 M37 37 L35 17 M51 28 L65 38" fill="none" stroke="#a9b78b" stroke-width="1.5" opacity=".57"/>
+        <path d="M19 43 Q26 17 57 12" fill="none" stroke="#d1d6a1" stroke-width="2" opacity=".2"/>
+      </symbol>
+      <symbol id="petal-art" viewBox="0 0 80 90"><path d="M40 80 C19.0 67.4 14.8 36.6 40 10.0 C65.2 36.6 61.0 67.4 40 80Z" fill="url(#lotus-front)" stroke="rgba(110,15,55,.3)" stroke-width=".8"/><path d="M40 76 Q40 44 40 18" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1.2" stroke-linecap="round"/></symbol>
+      <symbol id="bouquet-art" viewBox="0 0 340 270">
+        <g fill="none" stroke="#6d7952" stroke-width="3" stroke-linecap="round" opacity=".85">
+          <path d="M-4 64 C65 62 132 96 205 234"/>
+          <path d="M-7 132 C65 132 147 166 220 265"/>
+          <path d="M64 -10 C76 64 152 116 259 167"/>
+          <path d="M9 179 C83 181 143 206 173 271"/>
+        </g>
+        <use href="#leaf-art" x="34" y="12" width="98" height="71" transform="rotate(25 79 45)"/>
+        <use href="#leaf-art" x="122" y="58" width="91" height="66" transform="rotate(15 160 92)"/>
+        <use href="#leaf-art" x="173" y="135" width="89" height="64" transform="rotate(40 214 163)"/>
+        <use href="#leaf-art" x="36" y="149" width="100" height="72" transform="rotate(-35 84 184)"/>
+        <use href="#leaf-art" x="139" y="201" width="94" height="68" transform="rotate(-15 188 231)"/>
+        <use href="#leaf-art" x="213" y="92" width="92" height="67" transform="rotate(25 255 120)"/>
+        <use href="#rose-art" x="-39" y="-33" width="167" height="167"/>
+        <use href="#rose-art" x="88" y="60" width="145" height="145"/>
+        <use href="#rose-art" x="-29" y="123" width="133" height="133"/>
+        <use href="#rose-art" x="205" y="146" width="83" height="83" opacity=".88"/>
+        <g fill="#d6b75f" opacity=".88"><circle cx="126" cy="28" r="4"/><circle cx="150" cy="44" r="3"/><circle cx="258" cy="117" r="4"/><circle cx="290" cy="149" r="3"/><circle cx="112" cy="232" r="3"/><circle cx="258" cy="240" r="3"/></g>
+      </symbol>
+    </defs>
+  </svg>
+
+  <div id="splash" class="splash" role="dialog" aria-modal="true" aria-labelledby="splashTitle">
+    <svg class="splash-bouquet splash-bouquet--tl" viewBox="0 0 340 270" aria-hidden="true"><use href="#bouquet-art"/></svg>
+    <svg class="splash-bouquet splash-bouquet--tr" viewBox="0 0 340 270" aria-hidden="true"><use href="#bouquet-art"/></svg>
+    <svg class="splash-bouquet splash-bouquet--bl" viewBox="0 0 340 270" aria-hidden="true"><use href="#bouquet-art"/></svg>
+    <svg class="splash-bouquet splash-bouquet--br" viewBox="0 0 340 270" aria-hidden="true"><use href="#bouquet-art"/></svg>
+    <div class="splash-content">
+      <svg class="splash-rose" viewBox="0 0 120 120" aria-hidden="true"><use href="#rose-art"/></svg>
+      <p class="splash-kicker">අපගේ සුන්දරම දිනයට ඔබට ඇරයුම්</p>
+      <h1 id="splashTitle" class="splash-names gold-text"><span>නිමාෂා</span> <span class="ampersand">සහ</span> <span>නුවන්</span></h1>
+      <p class="splash-tagline">විවාහ දිවියට පා තබයි</p>
+      <p class="splash-date">2026 දෙසැම්බර් 27 වැනි ඉරිදා</p>
+      <button id="openInvitation" class="primary-button" type="button">
+        <span>ආරාධනය විවෘත කරන්න</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"/></svg>
+      </button>
+      <p class="splash-footnote">අපේ සතුට බෙදාගන්න එක්වන්න</p>
+    </div>
+  </div>
+
+  <nav class="site-nav" aria-label="ප්‍රධාන සංචාලනය">
+    <div class="nav-inner">
+      <a class="nav-brand" href="#home">නිමාෂා <span class="brand-heart">♥</span> නුවන්</a>
+      <div class="nav-links">
+        <a href="#blessings">ඇරයුම</a>
+        <a href="#events">වැඩසටහන්</a>
+        <a href="#venue">ස්ථානය</a>
+        <a href="#rsvp">පිළිතුර</a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="mainContent" inert aria-hidden="true">
+    <section id="home" class="hero" aria-labelledby="heroTitle">
+      <svg class="bouquet bouquet--tl" viewBox="0 0 340 270" aria-hidden="true"><use href="#bouquet-art"/></svg>
+      <svg class="bouquet bouquet--tr" viewBox="0 0 340 270" aria-hidden="true"><use href="#bouquet-art"/></svg>
+      <svg class="bouquet bouquet--bl" viewBox="0 0 340 270" aria-hidden="true"><use href="#bouquet-art"/></svg>
+      <svg class="bouquet bouquet--br" viewBox="0 0 340 270" aria-hidden="true"><use href="#bouquet-art"/></svg>
+      <div class="hero-center">
+        <p class="hero-topline">එක් ආදරයක් • එක් පොරොන්දුවක් • එක් සුන්දර අනාගතයක්</p>
+        <p class="hero-intro">අපේ ජීවිතයේ අතිශය සුන්දර දිනය</p>
+        <h2 id="heroTitle" class="hero-names gold-text"><span>නිමාෂා</span> <span class="ampersand">සහ</span> <span>නුවන්</span></h2>
+        <div class="ornament hero-ornament" aria-hidden="true"><svg viewBox="0 0 120 120"><use href="#rose-art"/></svg></div>
+        <p class="hero-date">2026 දෙසැම්බර් 27 වැනි ඉරිදා</p>
+        <p class="hero-venue">ග්‍රෑන්ඩ් මොනාර්ක් • කොළඹ</p>
+        <p class="hero-message">අපේ හදවත් එක්වන මේ ආදරණීය මොහොත, ඔබගේ පැමිණීමෙන් හා ආශීර්වාදයෙන් තවත් අර්ථවත් කරගන්නට අපි ආදරයෙන් ආරාධනා කරමු.</p>
+        <a class="hero-link" href="#events">දවසේ වැඩසටහන් බලන්න <span aria-hidden="true">↓</span></a>
+      </div>
+      <p class="hero-scroll-cue">අපේ ආරාධනය කියවීමට පහළට යන්න</p>
+    </section>
+
+    <section id="blessings" class="section blessing-section" aria-labelledby="blessingsTitle">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="section-kicker">අපේ සතුට ඔබ සමඟ බෙදාගන්නට</p>
+          <h2 id="blessingsTitle" class="section-title">හදවතින්ම ආදරණීය ඇරයුමක්</h2>
+          <div class="ornament" aria-hidden="true"><svg viewBox="0 0 120 120"><use href="#rose-art"/></svg></div>
+        </header>
+        <div class="blessing-panel reveal">
+          <div class="blessing-emblem" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M24 39 8 25C-1 16 12 4 24 17 36 4 49 16 40 25L24 39Z"/><path d="M17 24c0-4 3-7 7-7"/></svg></div>
+          <p class="blessing-message">දෙහදක් එක්වන මේ සුවිශේෂී දිනයේ, අපගේ පවුල්වල ආශීර්වාදයත් ඔබගේ ආදරණීය පැමිණීමත් අපට ඉතා වටිනවා. සිනහවෙන්, සතුටින් සහ සුබ පැතුම්වලින් පිරුණු මේ මොහොත අප සමඟ සමරන්නට ඔබට ආදරයෙන් ආරාධනා කරමු.</p>
+          <p class="blessing-signature">ආදරයෙන්, නිමාෂා සහ නුවන්</p>
+          <div class="blessing-grid">
+            <div class="blessing-feature">
+              <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M9 39V22l15-11 15 11v17M6 39h36M19 39V29h10v10M24 5v10M20 10h8"/></svg>
+              <h3>ආශීර්වාදය</h3><p>පවුල් දෙකක ආදරය සහ ආශීර්වාදය සමඟ</p>
+            </div>
+            <div class="blessing-feature">
+              <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="18" cy="26" r="10"/><circle cx="30" cy="26" r="10"/><path d="m17 8 5-4 5 4-5 5zM22 13v4"/></svg>
+              <h3>එක්වීම</h3><p>දෙහදක්, එක් පොරොන්දුවක්, අලුත් ගමනක්</p>
+            </div>
+            <div class="blessing-feature">
+              <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 39 8 25C-1 16 12 4 24 17 36 4 49 16 40 25L24 39Z"/></svg>
+              <h3>සතුට බෙදාගැනීම</h3><p>ඔබගේ පැමිණීම අපේ දවස තවත් සුන්දර කරයි</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="events" class="section events-section" aria-labelledby="eventsTitle">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="section-kicker">2026 දෙසැම්බර් 27 වැනි ඉරිදා</p>
+          <h2 id="eventsTitle" class="section-title">මංගල දිනයේ වැඩසටහන්</h2>
+          <div class="ornament" aria-hidden="true"><svg viewBox="0 0 120 120"><use href="#rose-art"/></svg></div>
+          <p class="section-subtitle">අපේ සතුටින් පිරුණු දවසේ සුවිශේෂී අවස්ථාවලට ඔබත් ආදරයෙන් එක්වන්න.</p>
+        </header>
+        <div class="event-grid">
+          <article class="event-card reveal">
+            <p class="event-number">පළමු අවස්ථාව</p>
+            <div class="event-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M7 41h34M11 41V20l13-9 13 9v21M17 41V28h14v13M24 5v10M19 9h10M5 21l19-13 19 13"/><path d="M21 33h6"/></svg></div>
+            <h3>ශුද්ධ වූ දිව්‍ය පූජාව</h3>
+            <p class="event-time">පෙ.ව. 9.00</p>
+            <p class="event-place">ශාන්ත ආනා දේවස්ථානය<br>නිට්ටඹුව</p>
+          </article>
+          <article class="event-card reveal">
+            <p class="event-number">දෙවන අවස්ථාව</p>
+            <div class="event-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><circle cx="18" cy="27" r="10"/><circle cx="31" cy="27" r="10"/><path d="m17 9 5-4 5 4-5 5zM22 14v4"/></svg></div>
+            <h3>විවාහ මංගල චාරිත්‍ර</h3>
+            <p class="event-time">පෙ.ව. 10.30</p>
+            <p class="event-place">ග්‍රෑන්ඩ් මොනාර්ක්<br>කොළඹ</p>
+          </article>
+          <article class="event-card reveal">
+            <p class="event-number">තෙවන අවස්ථාව</p>
+            <div class="event-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="m8 7 5 20c1 4 4 7 8 7s7-3 8-7l5-20M14 15h22M21 34v8m-9 0h18M31 4l2 3m8 3-3 3M6 20l-3 2"/><path d="M10 7h24"/></svg></div>
+            <h3>මංගල සාදය</h3>
+            <p class="event-time">ප.ව. 6.30</p>
+            <p class="event-place">ග්‍රෑන්ඩ් මොනාර්ක්<br>කොළඹ</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="countdown" class="section countdown-section" aria-labelledby="countdownTitle">
+      <div class="container reveal">
+        <header class="section-head">
+          <p class="section-kicker">අපේ ආදරණීය මොහොත ළඟා වෙමින්</p>
+          <h2 id="countdownTitle" class="section-title">අපේ දිනයට තවත්</h2>
+          <div class="ornament" aria-hidden="true"><svg viewBox="0 0 120 120"><use href="#rose-art"/></svg></div>
+          <p class="section-subtitle">2026 දෙසැම්බර් 27 • පෙ.ව. 10.30 • ශ්‍රී ලංකාවේ වේලාව</p>
+        </header>
+        <div class="countdown-grid" role="timer" aria-label="විවාහ මංගල්‍යයට ඉතිරි කාලය">
+          <div class="time-box"><span class="time-value" id="days">00</span><span class="time-label">දින</span></div>
+          <div class="time-box"><span class="time-value" id="hours">00</span><span class="time-label">පැය</span></div>
+          <div class="time-box"><span class="time-value" id="minutes">00</span><span class="time-label">මිනිත්තු</span></div>
+          <div class="time-box"><span class="time-value" id="seconds">00</span><span class="time-label">තත්පර</span></div>
+        </div>
+        <p id="countdownDone" class="countdown-done" aria-live="off"></p>
+      </div>
+    </section>
+
+    <section id="venue" class="section venue-section" aria-labelledby="venueTitle">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="section-kicker">අප හමුවන සුන්දර තැන</p>
+          <h2 id="venueTitle" class="section-title">මංගල උත්සව ස්ථානය</h2>
+          <div class="ornament" aria-hidden="true"><svg viewBox="0 0 120 120"><use href="#rose-art"/></svg></div>
+        </header>
+        <div class="venue-card reveal">
+          <div class="venue-art" aria-hidden="true"><div class="venue-medallion"><svg viewBox="0 0 120 120"><use href="#rose-art"/></svg></div></div>
+          <div class="venue-details">
+            <p class="eyebrow">ඔබගේ පැමිණීම අපට සතුටක්</p>
+            <h3>ග්‍රෑන්ඩ් මොනාර්ක්</h3>
+            <p class="venue-address">අංක 64, ගාලු පාර,<br>කොළඹ 03, ශ්‍රී ලංකාව</p>
+            <a class="map-button" href="https://www.google.com/maps/search/?api=1&amp;query=Grand%20Monarch%2C%20No.%2064%2C%20Galle%20Road%2C%20Colombo%2003%2C%20Sri%20Lanka" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              <span>ගූගල් සිතියමේ බලන්න</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="rsvp" class="section rsvp-section" aria-labelledby="rsvpTitle">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="section-kicker">ඔබගේ පැමිණීම අපට ඉතා අගනේය</p>
+          <h2 id="rsvpTitle" class="section-title">පැමිණීම තහවුරු කරන්න</h2>
+          <div class="ornament" aria-hidden="true"><svg viewBox="0 0 120 120"><use href="#rose-art"/></svg></div>
+          <p class="section-subtitle">අපගේ විශේෂ දිනයට ඔබ පැමිණෙනවාදැයි අපට දැනුම් දෙන්න.</p>
+        </header>
+        <div class="rsvp-panel reveal">
+          <form id="rsvpForm">
+            <div class="form-grid">
+              <div class="field">
+                <label for="guestName">ඔබගේ නම *</label>
+                <input id="guestName" name="guestName" type="text" autocomplete="name" placeholder="සම්පූර්ණ නම" required maxlength="120">
+              </div>
+              <div class="field">
+                <label for="guestEmail">විද්‍යුත් තැපැල් ලිපිනය *</label>
+                <input id="guestEmail" name="guestEmail" type="email" autocomplete="email" placeholder="විද්‍යුත් තැපැල් ලිපිනය" required maxlength="150">
+              </div>
+              <fieldset class="attendance-fieldset field full">
+                <legend>ඔබගේ සහභාගීත්වය *</legend>
+                <div class="radio-grid">
+                  <label class="radio-option"><input name="attendance" type="radio" value="accept" required checked><span>සතුටින් සහභාගී වෙමි</span></label>
+                  <label class="radio-option"><input name="attendance" type="radio" value="decline" required><span>කනගාටුවෙන් නොපැමිණෙමි</span></label>
+                </div>
+              </fieldset>
+              <div class="field full">
+                <label for="guestCount">සහභාගී වන අමුත්තන් ගණන</label>
+                <select id="guestCount" name="guestCount">
+                  <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option>
+                </select>
+              </div>
+              <div class="field full">
+                <label for="guestMessage">ඔබගේ පණිවිඩය හෝ විශේෂ ආහාර අවශ්‍යතා (විකල්ප)</label>
+                <textarea id="guestMessage" name="guestMessage" rows="4" maxlength="1000" placeholder="ඔබ කැමති නම් පණිවිඩයක් තබන්න..."></textarea>
+              </div>
+            </div>
+            <div class="form-foot">
+              <button class="submit-button" type="submit">මගේ පිළිතුර ලබා දෙන්න</button>
+              <p class="deadline">අවසන් දිනය: 2026 නොවැම්බර් 15</p>
+              <p class="demo-note">මෙය ආදර්ශ පෝරමයකි. ඇතුළත් කරන තොරතුරු කිසිවෙකුට යවනු නොලැබේ.</p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <svg class="footer-rose" viewBox="0 0 120 120" aria-hidden="true"><use href="#rose-art"/></svg>
+    <p class="footer-names">නිමාෂා සහ නුවන්</p>
+    <p class="footer-date">2026 දෙසැම්බර් 27 වැනි ඉරිදා</p>
+    <p class="footer-note">ආදරය සහ කෘතඥතාව සමඟ</p>
+  </footer>
+
+  <div id="fallingFlowers" class="falling-layer" aria-hidden="true"></div>
+  <audio id="weddingMusic" src="music.mp3" loop preload="none"></audio>
+  <button id="musicToggle" class="music-toggle" type="button" aria-label="සංගීතය වාදනය කරන්න" aria-pressed="false" title="සංගීතය වාදනය කරන්න"><span class="music-note" aria-hidden="true">♪</span></button>
+
+  <script>
+    'use strict';
+
+
+
+    const splash = document.getElementById('splash');
+    const openButton = document.getElementById('openInvitation');
+    const mainContent = document.getElementById('mainContent');
+    const music = document.getElementById('weddingMusic');
+    const musicButton = document.getElementById('musicToggle');
+    const fallingFlowers = document.getElementById('fallingFlowers');
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let invitationOpened = false;
+
+    music.volume = 0.5;
+
+    function updateMusicButton() {
+      const playing = !music.paused && !music.muted;
+      musicButton.classList.toggle('is-playing', playing);
+      musicButton.setAttribute('aria-pressed', String(playing));
+      const label = playing ? 'සංගීතය නවත්වන්න' : 'සංගීතය වාදනය කරන්න';
+      musicButton.setAttribute('aria-label', label);
+      musicButton.title = label;
+    }
+
+    function attemptMusicPlay() {
+      music.muted = false;
+      const result = music.play();
+      if (result && typeof result.catch === 'function') {
+        result.catch(() => {
+          music.pause();
+          updateMusicButton();
+        });
+      }
+      updateMusicButton();
+    }
+
+    music.addEventListener('play', updateMusicButton);
+    music.addEventListener('pause', updateMusicButton);
+    music.addEventListener('volumechange', updateMusicButton);
+    music.addEventListener('error', updateMusicButton);
+
+    musicButton.addEventListener('click', () => {
+      if (music.paused || music.muted) attemptMusicPlay();
+      else { music.pause(); updateMusicButton(); }
+    });
+
+    function createFallingFlowers() {
+      if (reducedMotion.matches || fallingFlowers.childElementCount) return;
+      const count = window.innerWidth < 650 ? 13 : 22;
+      const fragment = document.createDocumentFragment();
+      for (let i = 0; i < count; i++) {
+        const isRose = i % 5 === 0;
+        const flower = document.createElement('span');
+        flower.className = 'falling-item';
+        const size = isRose ? 29 + Math.random() * 25 : 17 + Math.random() * 18;
+        const drift = Math.round((Math.random() - .5) * 280);
+        const duration = 11 + Math.random() * 15;
+        flower.style.setProperty('--start-x', `${Math.random() * 105 - 3}%`);
+        flower.style.setProperty('--size', `${size.toFixed(1)}px`);
+        flower.style.setProperty('--drift', `${drift}px`);
+        flower.style.setProperty('--drift-mid', `${Math.round(-drift * .55)}px`);
+        flower.style.setProperty('--duration', `${duration.toFixed(1)}s`);
+        flower.style.setProperty('--delay', `${(-Math.random() * duration).toFixed(1)}s`);
+        flower.style.setProperty('--tumble', `${(3 + Math.random() * 5).toFixed(1)}s`);
+        flower.style.opacity = String(.47 + Math.random() * .4);
+        flower.innerHTML = `<span class="falling-tumbler"><svg viewBox="0 0 ${isRose ? '120 120' : '80 90'}" aria-hidden="true"><use href="#${isRose ? 'rose-art' : 'petal-art'}"></use></svg></span>`;
+        fragment.appendChild(flower);
+      }
+      fallingFlowers.appendChild(fragment);
+    }
+
+    openButton.addEventListener('click', () => {
+      if (invitationOpened) return;
+      invitationOpened = true;
+      // අමුත්තා බොත්තම ඔබන මොහොතේම සංගීතය ආරම්භ කිරීමට උත්සාහ කරයි.
+      attemptMusicPlay();
+      document.body.classList.add('site-open');
+      mainContent.removeAttribute('inert');
+      mainContent.removeAttribute('aria-hidden');
+      splash.setAttribute('aria-hidden', 'true');
+      createFallingFlowers();
+      window.scrollTo({ top: 0, behavior: 'instant' });
+      document.getElementById('heroTitle').setAttribute('tabindex', '-1');
+      document.getElementById('heroTitle').focus({ preventScroll: true });
+      window.setTimeout(() => { splash.hidden = true; }, reducedMotion.matches ? 10 : 900);
+    });
+
+    if ('IntersectionObserver' in window && !reducedMotion.matches) {
+      const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: .12, rootMargin: '0px 0px -26px 0px' });
+      document.querySelectorAll('.reveal').forEach(element => observer.observe(element));
+    } else {
+      document.querySelectorAll('.reveal').forEach(element => element.classList.add('is-visible'));
+    }
+
+    // ශ්‍රී ලංකාවේ වේලාවට 2026 දෙසැම්බර් 27 පෙ.ව. 10.30.
+    const weddingTime = new Date('2026-12-27T10:30:00+05:30').getTime();
+    const countdownNodes = ['days', 'hours', 'minutes', 'seconds'].map(id => document.getElementById(id));
+    function updateCountdown() {
+      const delta = Math.max(0, weddingTime - Date.now());
+      const totalSeconds = Math.floor(delta / 1000);
+      const days = Math.floor(totalSeconds / 86400);
+      const hours = Math.floor((totalSeconds % 86400) / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+      [days, hours, minutes, seconds].forEach((value, index) => {
+        countdownNodes[index].textContent = String(value).padStart(2, '0');
+      });
+      if (delta === 0) {
+        document.getElementById('countdownDone').textContent = 'අපේ සුන්දර දිනය උදා වී ඇත!';
+        window.clearInterval(countdownTimer);
+      }
+    }
+    const countdownTimer = window.setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    const rsvpForm = document.getElementById('rsvpForm');
+    const guestCount = document.getElementById('guestCount');
+    rsvpForm.querySelectorAll('input[name="attendance"]').forEach(input => {
+      input.addEventListener('change', () => {
+        guestCount.disabled = rsvpForm.elements.attendance.value === 'decline';
+      });
+    });
+    rsvpForm.addEventListener('submit', event => {
+      event.preventDefault();
+      if (!rsvpForm.reportValidity()) return;
+      const name = rsvpForm.elements.guestName.value.trim();
+      if (!name) { rsvpForm.elements.guestName.focus(); return; }
+      const attending = rsvpForm.elements.attendance.value === 'accept';
+      const detail = attending
+        ? `ඔබ සහභාගී වන බවත් අමුත්තන් ගණන ${guestCount.value}ක් බවත් සටහන් වූ ආකාරය මෙයින් පෙන්වයි.`
+        : 'ඔබට සහභාගී වීමට නොහැකි බව සටහන් වූ ආකාරය මෙයින් පෙන්වයි.';
+      window.alert(`ස්තුතියි, ${name}!\n\n${detail}\n\nමෙය ආදර්ශ ආරාධනා පෝරමයක් පමණි. ඔබගේ පිළිතුර කිසිදු සේවාදායකයකට යවා නැත.`);
+      rsvpForm.reset();
+      guestCount.disabled = false;
+    });
+  </script>
+</body>
+</html>
